@@ -18,7 +18,7 @@
 import os
 
 
-def check_file_existance(file_path):  # chequea si existe el archivo
+def check_file_existance(file_path):  # chequea status del archivo
     try:
         with open(file_path, 'r+') as f:
             if os.path.getsize(file_path) == 0:  # si el archivo está vacío
@@ -27,19 +27,16 @@ def check_file_existance(file_path):  # chequea si existe el archivo
             else:  # si el archivo no está vacío
                 inner_counter = int(f.read()) + ask()
                 f.seek(0)
-                f.write(str(inner_counter))
+                f.write(str(inner_counter) + ' ')
                 print('Contador en',inner_counter)
                 f.close()
-            return True
-    except FileNotFoundError as e:
+    except FileNotFoundError as e:  # si el archivo no existe, lo crea
         print('ERROR: El archivo no existe.\nEl Archivo \'contador.txt\' ha sido creado e inicializado.')
         with open(file_path, 'w+') as f:
            f.write('0')
            f.close()
-        return False
-    except IOError as e:
+    except IOError as e:  #si el archivo está dañado
         print('ERROR: El archivo está dañado.\n', e)
-        return False
 
 
 def ask():
